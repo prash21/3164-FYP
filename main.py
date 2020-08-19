@@ -25,4 +25,14 @@ else:
     # dataset is not of a satisfactory level in terms of data quality/cleanliness.
 
 
-#Kevin
+#convert catergorical columns to 1,0
+count = 0
+#0 for male, 1 for female
+for row in df['Sex']:
+    if row == "Male":
+        df.at[count,'Sex']= 0
+    if row == "Fmale":
+        df.at[count, 'Sex'] = 1
+    count += 1
+
+print(df['Sex'])
