@@ -35,4 +35,5 @@ for row in df['Sex']:
         df.at[count, 'Sex'] = 1
     count += 1
 
-print(df['Sex'])
+df['Sex'] = pd.to_numeric(df['Sex'])
+
