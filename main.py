@@ -54,25 +54,33 @@ def convertCategorical(df, column):
 #Call function on all other columns that have Y/N values to convert them into
 # 0/1
 
-#For the Obesity column
+#Convert all Y/N columns to 1/0
 convertCategorical(df, "Obesity")
+convertCategorical(df, "CRF")
+convertCategorical(df, "CVA")
+convertCategorical(df, "Airway disease")
+convertCategorical(df, "Thyroid Disease")
+convertCategorical(df, "CHF")
+convertCategorical(df, "DLP")
+convertCategorical(df, "Weak Peripheral Pulse")
+convertCategorical(df, "Lung rales")
+convertCategorical(df, "Systolic Murmur")
+convertCategorical(df, "Diastolic Murmur")
+convertCategorical(df, "Dyspnea")
+convertCategorical(df, "Atypical")
+convertCategorical(df, "Nonanginal")
+convertCategorical(df, "Exertional CP")
+convertCategorical(df, "LowTH Ang")
+convertCategorical(df, "LVH")
+convertCategorical(df, "Poor R Progression")
 
-#Do the same thing for the rest of the columns with Y/N
-
-
-
-#Check to see if it is correctly converted
-print(df["Sex"])
-print(df["Obesity"])
 
 
 #Convert MALE/FEMALE into separate columns
 df["Male"]=""
 df["Female"]=""
 
-print(df)
 count = 0
-
 # 0 for NO, 1 for YES
 for row in df["Sex"]:
     if row == 0:
@@ -88,6 +96,8 @@ df["Female"] = pd.to_numeric(df["Female"])
 
 df=df.drop(['Sex'], axis=1)
 
+
+
 #Convert function class into separate columns
 df["Function Class 0"]=""
 df["Function Class 1"]=""
@@ -96,7 +106,6 @@ df["Function Class 3"]=""
 df["Function Class 4"]=""
 
 count = 0
-
 # 0 for NO, 1 for YES
 for row in df["Function Class"]:
     if row == 0:
@@ -140,13 +149,13 @@ df["Function Class 4"] = pd.to_numeric(df["Function Class 4"])
 df=df.drop(['Function Class'], axis=1)
 
 
+
 #Convert BBB into separate columns
 df["BBB_LBBB"]=""
 df["BBB_N"]=""
 df["BBB_RBBB"]=""
 
 count = 0
-
 # 0 for NO, 1 for YES
 for row in df["BBB"]:
     if row == "LBBB":
@@ -171,6 +180,7 @@ df["BBB_RBBB"]=pd.to_numeric(df["BBB_RBBB"])
 df=df.drop(['BBB'], axis=1)
 
 
+
 #Convert function class into separate columns
 df["Region RWMA 0"]=""
 df["Region RWMA 1"]=""
@@ -179,7 +189,6 @@ df["Region RWMA 3"]=""
 df["Region RWMA 4"]=""
 
 count = 0
-
 # 0 for NO, 1 for YES
 for row in df["Region RWMA"]:
     if row == 0:
@@ -220,7 +229,6 @@ df["Region RWMA 2"]=pd.to_numeric(df["Region RWMA 2"])
 df["Region RWMA 3"]=pd.to_numeric(df["Region RWMA 3"])
 df["Region RWMA 4"]=pd.to_numeric(df["Region RWMA 4"])
 
-
 df=df.drop(['Region RWMA'], axis=1)
 
 
@@ -232,7 +240,6 @@ df["VHD_Severe"]=""
 df["VHD_Moderate"]=""
 
 count = 0
-
 # 0 for NO, 1 for YES
 for row in df["VHD"]:
     if row == "N":
@@ -265,6 +272,10 @@ df["VHD_Moderate"]=pd.to_numeric(df["VHD_Moderate"])
 
 df=df.drop(['VHD'], axis=1)
 
+#Output the modified dataset to a csv to see it clearly.
+df.to_csv("CAD4_Updated.csv")
 
 
-print(df)
+#Feature selection
+
+from scipy.stats import pearsonr
