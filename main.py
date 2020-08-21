@@ -38,6 +38,22 @@ for row in df['Sex']:
 df['Sex'] = pd.to_numeric(df['Sex'])
 
 
+
+#convert "Cath" column into 1,0
+count = 0
+#0 for Normal, 1 for Cad
+for row in df['Cath']:
+    if row == "Normal":
+        df.at[count,'Cath']= 0
+    if row == "Cad":
+        df.at[count, 'Cath'] = 1
+    count += 1
+
+df['Cath'] = pd.to_numeric(df['Cath'])
+
+
+
+
 #convert other columns to 1,0
 def convertCategorical(df, column):
     count = 0
@@ -278,4 +294,29 @@ df.to_csv("CAD4_Updated.csv")
 
 #Feature selection
 
-from scipy.stats import pearsonr
+#Find correlation between all variables.
+correlation_df=df.corr()
+print(correlation_df)
+correlation_df.to_csv("all_correlation.csv")
+
+#Plot the heatmap for all variables
+import matplotlib.pyplot as plt
+#Edit the parameters of the heatmap style
+f = plt.figure(figsize=(19, 15))
+plt.matshow(df.corr(), fignum=f.number)
+plt.xticks(range(df.shape[1]), df.columns, fontsize=14, rotation=45)
+plt.yticks(range(df.shape[1]), df.columns, fontsize=14)
+cb = plt.colorbar()
+cb.ax.tick_params(labelsize=14)
+plt.title('Correlation Matrix', fontsize=16)
+#Plot the heatmap - UNCOMMENT TO SEE HEATMAP
+#plt.matshow(correlation_df.corr())
+#plt.show()
+
+#Plot is quite big, so look closer between Cath and all variables.
+corr_list=[]
+#Print and look at all the correlation values between Cath and all other attributes.
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+    print(correlation_df["Cath"])
+
+#All attributes seem to have some/minor correlation with Cath, so they will be kept.
