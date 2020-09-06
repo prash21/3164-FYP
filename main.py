@@ -331,3 +331,99 @@ print(df.describe())
 
 import numpy as np
 from sklearn.model_selection import train_test_split
+
+print('\n')
+
+y=df.pop('Cath')
+X=df
+
+print(y)
+print('\n')
+print(X)
+print('\n')
+
+#print(y_labels)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.3)
+#X.iloc[X_train] # return dataframe train
+#print(X_train)
+#print('\n')
+#print(X_test)
+#print('\n')
+#print(y_train)
+#print('\n')
+#print(y_test)
+
+from sklearn.linear_model import LogisticRegression
+LR_clf = LogisticRegression(max_iter=1000)
+
+from sklearn.naive_bayes import GaussianNB
+NB_clf = GaussianNB()
+
+from sklearn.ensemble import RandomForestClassifier
+RF_clf = RandomForestClassifier()
+
+from sklearn import svm
+SVM_clf = svm.SVC()
+
+from sklearn.ensemble import VotingClassifier
+voting_clf = VotingClassifier(estimators=[('LR', LR_clf), ('NB', NB_clf), ('RF', RF_clf)], voting='hard')
+
+from sklearn.metrics import accuracy_score, f1_score, log_loss, roc_auc_score
+
+voting_clf.fit(X_train, y_train)
+preds = voting_clf.predict(X_test)
+acc = accuracy_score(y_test, preds)
+l_loss = log_loss(y_test, preds)
+f1 = f1_score(y_test, preds)
+roc = roc_auc_score(y_test, preds)
+print("Meta-learner 1")
+print("Accuracy is: " + str(acc))
+print("Log Loss is: " + str(l_loss))
+print("F1 Score is: " + str(f1))
+print("ROC Score is: " + str(roc))
+print('\n')
+
+voting_clf2 = VotingClassifier(estimators=[('LR', LR_clf), ('NB', NB_clf), ('SVM', SVM_clf)], voting='hard')
+
+voting_clf2.fit(X_train, y_train)
+preds = voting_clf2.predict(X_test)
+acc = accuracy_score(y_test, preds)
+l_loss = log_loss(y_test, preds)
+f1 = f1_score(y_test, preds)
+roc = roc_auc_score(y_test, preds)
+print("Meta-learner 2")
+print("Accuracy is: " + str(acc))
+print("Log Loss is: " + str(l_loss))
+print("F1 Score is: " + str(f1))
+print("ROC Score is: " + str(roc))
+print('\n')
+
+voting_clf3 = VotingClassifier(estimators=[('RF', RF_clf), ('NB', NB_clf), ('SVM', SVM_clf)], voting='hard')
+
+voting_clf3.fit(X_train, y_train)
+preds = voting_clf3.predict(X_test)
+acc = accuracy_score(y_test, preds)
+l_loss = log_loss(y_test, preds)
+f1 = f1_score(y_test, preds)
+roc = roc_auc_score(y_test, preds)
+print("Meta-learner 3")
+print("Accuracy is: " + str(acc))
+print("Log Loss is: " + str(l_loss))
+print("F1 Score is: " + str(f1))
+print("ROC Score is: " + str(roc))
+print('\n')
+
+voting_clf4 = VotingClassifier(estimators=[('LR', LR_clf), ('RF', RF_clf), ('SVM', SVM_clf)], voting='hard')
+
+voting_clf4.fit(X_train, y_train)
+preds = voting_clf4.predict(X_test)
+acc = accuracy_score(y_test, preds)
+l_loss = log_loss(y_test, preds)
+f1 = f1_score(y_test, preds)
+roc = roc_auc_score(y_test, preds)
+print("Meta-learner 4")
+print("Accuracy is: " + str(acc))
+print("Log Loss is: " + str(l_loss))
+print("F1 Score is: " + str(f1))
+print("ROC Score is: " + str(roc))
+print('\n')
