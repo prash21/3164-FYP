@@ -319,4 +319,15 @@ corr_list=[]
 with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
     print(correlation_df["Cath"])
 
+
+
+
+#Removing attributes
+df=df.drop(['Weight','Length','BMI','Current Smoker','EX-Smoker','FH','Obesity','CRF','CVA','Airway disease','Thyroid Disease','CHF','DLP','PR','Edema', 'Weak Peripheral Pulse', 'Lung rales'], axis=1)
+df=df.drop(['Systolic Murmur','Diastolic Murmur','Dyspnea','LowTH Ang','Q Wave','St Elevation','St Depression','LVH','Poor R Progression','CR','TG','LDL','HDL','BUN', 'ESR', 'HB','K','Na','WBC'], axis=1)
+df=df.drop(['Lymph','Neut','PLT','Male','Female','Function Class 0','Function Class 1','Function Class 2','Function Class 3','Function Class 4','BBB_LBBB','BBB_N','BBB_RBBB','VHD_Moderate'], axis=1)
+print(df.describe())
 #All attributes seem to have some/minor correlation with Cath, so they will be kept.
+
+import numpy as np
+from sklearn.model_selection import train_test_split
